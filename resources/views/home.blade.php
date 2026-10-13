@@ -10,9 +10,10 @@
     <p>Сегодня: {{ $date }}</p>
 
     <nav>
-        <a href="{{ route('home') }}">Главная</a> |
-        <a href="{{ route('about') }}">О нас</a> |
-        <a href="{{ route('contacts') }}">Контакты</a>
-    </nav>
+    <a href="{{ route('home') }}">Главная</a> |
+    <a href="{{ route('about') }}">О нас</a> |
+    <a href="{{ route('contacts') }}">Контакты</a> |
+    <a href="{{ route('trainers.show', ['id' => 1]) }}">Тренеры</a>
+</nav>
 </body>
 </html>
