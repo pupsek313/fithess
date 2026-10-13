@@ -1,4 +1,3 @@
-
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -34,8 +33,34 @@ Route::get('/hello/{name}', function ($name) {
 });
 
 
-Route::get('/trainers/{id}', function ($id) {
-    return view('trainers.show', [
-        'id' => $id,
-    ]);
+Route::get('/trainers', function () {
+    return view('trainers.index', ['items' => config('catalog.items')]);
+})->name('trainers.index');
+
+Route::get('/trainers/{id}', function (int $id) {
+    $trainer = config("catalog.items.$id");
+    if (! $trainer) {
+        abort(404);
+    }
+    return view('trainers.show', ['id' => $id, 'trainer' => $trainer]);
 })->whereNumber('id')->name('trainers.show');
+
+Route::view('/rules', 'rules');
+Route::redirect('/main', '/');
+
+Route::prefix('admin')->name('admin.')->middleware('admin.key')->group(function () {
+    Route::view('/', 'admin.dashboard')->name('dashboard');
+
+    Route::get('/trainers', function () {
+        return view('admin.trainers', ['items' => config('catalog.items')]);
+    })->name('trainers');
+
+    Route::view('/trainers/create', 'admin.trainers-create')->name('trainers.create');
+});
+
+Route::get('/admin/logout', function () {
+    session()->forget('is_admin');
+    return redirect('/');
+})->name('admin.logout');
+
+Route::view('/booking', 'booking')->middleware('hours:9,18')->name('booking');

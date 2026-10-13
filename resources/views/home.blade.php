@@ -13,7 +13,9 @@
     <a href="{{ route('home') }}">Главная</a> |
     <a href="{{ route('about') }}">О нас</a> |
     <a href="{{ route('contacts') }}">Контакты</a> |
-    <a href="{{ route('trainers.show', ['id' => 1]) }}">Тренеры</a>
+    <a href="{{ route('trainers.index') }}">Тренеры</a> |
+    <a href="{{ url('/rules') }}">Правила</a> |
+    <a href="{{ route('booking') }}">Записаться на тренировку</a>
 </nav>
 </body>
 </html>
