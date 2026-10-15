@@ -1,15 +1,12 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Панель администратора</title>
-</head>
-<body>
+@extends('layouts.admin')
+
+@section('title', 'Панель')
+
+@section('content')
     <h1>Панель администратора</h1>
     <ul>
         <li><a href="{{ route('admin.trainers') }}">Список тренеров</a></li>
         <li><a href="{{ route('admin.trainers.create') }}">Добавить тренера</a></li>
     </ul>
     <a href="{{ route('home') }}">На сайт</a>
-</body>
-</html>
+@endsection

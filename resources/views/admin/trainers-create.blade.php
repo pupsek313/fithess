@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Новый тренер</title>
-</head>
-<body>
+@extends('layouts.admin')
+
+@section('title', 'Новый тренер')
+
+@section('content')
     <h1>Добавить тренера</h1>
     <form>
         <p><label>Имя: <input type="text" name="name"></label></p>
@@ -13,6 +11,4 @@
         <p><label>Цена: <input type="number" name="price"></label></p>
         <button type="button">Сохранить</button>
     </form>
-    <a href="{{ route('admin.dashboard') }}">← В панель</a>
-</body>
-</html>
+@endsection

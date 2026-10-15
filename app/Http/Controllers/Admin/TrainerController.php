@@ -13,6 +13,6 @@ class TrainerController extends Controller
 
     public function create()
     {
-        return view('admin.trainers-create');
+          return view('admin.trainers-create');
     }
 }

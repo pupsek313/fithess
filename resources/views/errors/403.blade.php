@@ -1,12 +1,12 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>403 — Доступ запрещён</title>
-</head>
-<body>
-    <h1>Доступ запрещён</h1>
-    <p>{{ $exception->getMessage() }}</p>
-    <a href="{{ route('home') }}">На главную</a>
-</body>
-</html>
+@extends('layouts.app')
+
+@section('title', '403 — Доступ запрещён')
+
+@section('content')
+    <h1 class="big-code">403</h1>
+    <div class="card">
+        <p>Доступ запрещён</p>
+        <p>{{ $exception->getMessage() }}</p>
+        <a href="{{ route('home') }}">На главную</a>
+    </div>
+@endsection
