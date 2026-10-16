@@ -9,6 +9,7 @@ class PageController extends Controller
         return view('home', [
             'title' => config('app.name'),
             'date'  => date('d.m.Y'),
+            'items' => array_slice(config('catalog.items'), 0, 3, true),
         ]);
     }
 

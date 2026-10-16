@@ -6,14 +6,12 @@
     <h1>Наши тренеры</h1>
 
     @forelse ($items as $id => $item)
-        <div class="card">
-            {{ $loop->iteration }}.
-            <a href="{{ route('trainers.show', $id) }}">{{ $item['name'] }}</a>
-            @if ($item['experience'] >= 8)
-                <span class="badge">Опытный</span>
-            @endif
-        </div>
+        <x-card :title="$loop->iteration . '. ' . $item['name']"
+                :url="route('trainers.show', $id)"
+                :badge="$item['experience'] >= 8 ? 'Опытный' : null">
+            {{ $item['specialty'] }}, стаж {{ $item['experience'] }} лет
+        </x-card>
     @empty
-        <p>Тренеры пока не добавлены.</p>
+      <x-alert type="info">Тренеры пока не добавлены.</x-alert>
     @endforelse
 @endsection

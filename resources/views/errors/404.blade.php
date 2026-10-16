@@ -4,8 +4,6 @@
 
 @section('content')
     <h1 class="big-code">404</h1>
-    <div class="card">
-        <p>Такой страницы нет</p>
-        <a href="{{ route('home') }}">На главную</a>
-    </div>
+    <x-alert type="error">Такой страницы нет</x-alert>
+    <a href="{{ route('home') }}">На главную</a>
 @endsection

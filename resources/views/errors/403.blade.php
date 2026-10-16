@@ -4,9 +4,6 @@
 
 @section('content')
     <h1 class="big-code">403</h1>
-    <div class="card">
-        <p>Доступ запрещён</p>
-        <p>{{ $exception->getMessage() }}</p>
-        <a href="{{ route('home') }}">На главную</a>
-    </div>
+    <x-alert type="warning">Доступ запрещён. {{ $exception->getMessage() }}</x-alert>
+    <a href="{{ route('home') }}">На главную</a>
 @endsection

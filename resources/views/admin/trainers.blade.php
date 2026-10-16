@@ -18,7 +18,7 @@
                 <td>
                     {{ $item['name'] }}
                     @if ($loop->first)
-                        <span class="badge">новая</span>
+                        <x-badge>новая</x-badge>
                     @endif
                 </td>
                 <td>{{ $item['specialty'] }}</td>
