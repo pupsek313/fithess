@@ -10,12 +10,12 @@
     </div>
 
     <h2>Наши тренеры</h2>
-    @foreach ($items as $id => $item)
+    @foreach ($trainers as $trainer)
         <x-card class="card-wide"
-                :title="$item['name']"
-                :url="route('trainers.show', $id)"
-                :badge="$item['experience'] >= 8 ? 'Опытный' : null">
-            {{ $item['specialty'] }}, стаж {{ $item['experience'] }} лет
+                :title="$trainer->name"
+                :url="route('trainers.show', $trainer->id)"
+                :badge="$trainer->experience >= 8 ? 'Опытный' : null">
+            {{ $trainer->specialization }}, стаж {{ $trainer->experience }} лет
         </x-card>
     @endforeach
 @endsection

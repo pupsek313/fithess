@@ -1,17 +1,24 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\DB;
 class PageController extends Controller
 {
     public function home()
-    {
-        return view('home', [
-            'title' => config('app.name'),
-            'date'  => date('d.m.Y'),
-            'items' => array_slice(config('catalog.items'), 0, 3, true),
-        ]);
-    }
+{
+    $trainers = DB::table('trainers')
+        ->join('specializations', 'trainers.specialization_id', '=', 'specializations.id')
+        ->select('trainers.*', 'specializations.name as specialization')
+        ->orderBy('trainers.id')
+        ->limit(3)
+        ->get();
+
+    return view('home', [
+        'title'    => config('app.name'),
+        'date'     => date('d.m.Y'),
+        'trainers' => $trainers,
+    ]);
+}
 
     public function about()
     {

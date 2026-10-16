@@ -4,7 +4,7 @@
 
 @section('content')
     <h1>Все тренеры</h1>
-    <table border="1" cellpadding="6" cellspacing="0">
+    <table>
         <tr>
             <th>№</th>
             <th>Имя</th>
@@ -12,18 +12,18 @@
             <th>Стаж, лет</th>
             <th>Цена, тг/мес.</th>
         </tr>
-        @foreach ($items as $id => $item)
+        @foreach ($trainers as $trainer)
             <tr>
-                <td>{{ $id }}</td>
+                <td>{{ $trainer->id }}</td>
                 <td>
-                    {{ $item['name'] }}
+                    {{ $trainer->name }}
                     @if ($loop->first)
                         <x-badge>новая</x-badge>
                     @endif
                 </td>
-                <td>{{ $item['specialty'] }}</td>
-                <td>{{ $item['experience'] }}</td>
-                <td>{{ $item['price'] }}</td>
+                <td>{{ $trainer->specialization }}</td>
+                <td>{{ $trainer->experience }}</td>
+                <td>{{ number_format($trainer->price, 0, '', ' ') }}</td>
             </tr>
         @endforeach
     </table>

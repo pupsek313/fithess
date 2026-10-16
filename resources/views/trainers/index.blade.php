@@ -5,13 +5,13 @@
 @section('content')
     <h1>Наши тренеры</h1>
 
-    @forelse ($items as $id => $item)
-        <x-card :title="$loop->iteration . '. ' . $item['name']"
-                :url="route('trainers.show', $id)"
-                :badge="$item['experience'] >= 8 ? 'Опытный' : null">
-            {{ $item['specialty'] }}, стаж {{ $item['experience'] }} лет
+    @forelse ($trainers as $trainer)
+        <x-card :title="$loop->iteration . '. ' . $trainer->name"
+                :url="route('trainers.show', $trainer->id)"
+                :badge="$trainer->experience >= 8 ? 'Опытный' : null">
+            {{ $trainer->specialization }}, стаж {{ $trainer->experience }} лет
         </x-card>
     @empty
-      <x-alert type="info">Тренеры пока не добавлены.</x-alert>
+        <x-alert type="info">Тренеры пока не добавлены.</x-alert>
     @endforelse
 @endsection

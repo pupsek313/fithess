@@ -2,18 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
+
 class TrainerController extends Controller
 {
     public function index()
     {
-        return view('trainers.index', ['items' => config('catalog.items')]);
+        $trainers = DB::table('trainers')
+            ->join('specializations', 'trainers.specialization_id', '=', 'specializations.id')
+            ->select('trainers.*', 'specializations.name as specialization')
+            ->orderBy('trainers.id')
+            ->get();
+
+        return view('trainers.index', compact('trainers'));
     }
 
     public function show(int $id)
     {
-        $trainer = config("catalog.items.$id");
+        $trainer = DB::table('trainers')
+            ->join('specializations', 'trainers.specialization_id', '=', 'specializations.id')
+            ->select('trainers.*', 'specializations.name as specialization')
+            ->where('trainers.id', $id)
+            ->first();
+
         abort_if(! $trainer, 404);
 
-        return view('trainers.show', compact('id', 'trainer'));
+        return view('trainers.show', compact('trainer'));
     }
 }
