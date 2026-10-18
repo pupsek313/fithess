@@ -234,3 +234,26 @@ h2 { font-family: var(--font-head); text-transform: uppercase; letter-spacing: 1
     opacity: 1;
     visibility: visible;
 }
+
+.catalog {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 28px;
+    align-items: start;
+}
+
+.sidebar {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-top: 4px solid var(--accent);
+    padding: 14px 18px;
+}
+.sidebar h2 { margin: 0 0 10px; font-size: 20px; }
+.sidebar ul { list-style: none; margin: 0; padding: 0; line-height: 1.4; }
+.sidebar li { border-bottom: 1px solid var(--line); }
+.sidebar li:last-child { border-bottom: none; }
+.sidebar a { display: block; padding: 8px 0; text-decoration: none; }
+
+@media (max-width: 720px) {
+    .catalog { grid-template-columns: 1fr; }
+}

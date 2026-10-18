@@ -1,15 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\DB;
+use App\Models\Trainer;
 class PageController extends Controller
 {
     public function home()
 {
-    $trainers = DB::table('trainers')
-        ->join('specializations', 'trainers.specialization_id', '=', 'specializations.id')
-        ->select('trainers.*', 'specializations.name as specialization')
-        ->orderBy('trainers.id')
+    $trainers = Trainer::with('specialization')
+        ->orderBy('id')
         ->limit(3)
         ->get();
 

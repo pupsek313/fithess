@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\TrainerController as AdminTrainerController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\TrainerController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SpecializationController;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/about', [PageController::class, 'about'])->name('about');
@@ -15,8 +16,8 @@ Route::get('/hello/{name}', [PageController::class, 'hello']);
 Route::redirect('/main', '/');
 
 Route::get('/trainers', [TrainerController::class, 'index'])->name('trainers.index');
-Route::get('/trainers/{id}', [TrainerController::class, 'show'])
-    ->whereNumber('id')
+Route::get('/trainers/{trainer}', [TrainerController::class, 'show'])
+    ->whereNumber('trainer')
     ->name('trainers.show');
 
 Route::get('/booking', [PageController::class, 'booking'])
@@ -30,3 +31,7 @@ Route::prefix('admin')->name('admin.')->middleware('admin.key')->group(function 
 });
 
 Route::get('/admin/logout', LogoutController::class)->name('admin.logout');
+
+Route::get('/specializations/{specialization}', [SpecializationController::class, 'show'])
+    ->whereNumber('specialization')
+    ->name('specializations.show');

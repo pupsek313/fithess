@@ -15,7 +15,7 @@
                 :title="$trainer->name"
                 :url="route('trainers.show', $trainer->id)"
                 :badge="$trainer->experience >= 8 ? 'Опытный' : null">
-            {{ $trainer->specialization }}, стаж {{ $trainer->experience }} лет
+           {{ $trainer->specialization->name }}, стаж {{ $trainer->experience }} лет
         </x-card>
     @endforeach
 @endsection

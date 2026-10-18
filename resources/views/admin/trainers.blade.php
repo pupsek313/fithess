@@ -21,7 +21,7 @@
                         <x-badge>новая</x-badge>
                     @endif
                 </td>
-                <td>{{ $trainer->specialization }}</td>
+                <td>{{ $trainer->specialization->name }}</td>
                 <td>{{ $trainer->experience }}</td>
                 <td>{{ number_format($trainer->price, 0, '', ' ') }}</td>
             </tr>
