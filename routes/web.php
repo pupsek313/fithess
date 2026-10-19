@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LogoutController;
 use App\Http\Controllers\Admin\SpecializationController as AdminSpecializationController;
 use App\Http\Controllers\Admin\TrainerController as AdminTrainerController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\SpecializationController;
 use App\Http\Controllers\TrainerController;
@@ -28,6 +30,17 @@ Route::get('/specializations/{specialization}', [SpecializationController::class
 Route::get('/booking', [PageController::class, 'booking'])
     ->middleware('hours:9,18')
     ->name('booking');
+
+// регистрация и вход: только для гостей
+Route::middleware('guest')->group(function () {
+    Route::get('/register', [RegisterController::class, 'create'])->name('register');
+    Route::post('/register', [RegisterController::class, 'store']);
+    Route::get('/login', [LoginController::class, 'create'])->name('login');
+    Route::post('/login', [LoginController::class, 'store']);
+});
+
+Route::post('/logout', [LoginController::class, 'destroy'])
+    ->middleware('auth')->name('logout');
 
 Route::prefix('admin')->name('admin.')->middleware('admin.key')->group(function () {
     Route::get('/', DashboardController::class)->name('dashboard');

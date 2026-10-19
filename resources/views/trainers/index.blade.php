@@ -59,7 +59,7 @@
                 @endif
             @endforelse
 
-            {{ $trainers->links() }}
+           {{ $trainers->links('pagination.custom') }}
         </div>
     </div>
 @endsection
