@@ -20,15 +20,46 @@
         </aside>
 
         <div class="catalog-list">
+            <form method="GET" action="{{ route('trainers.index') }}" class="filters">
+                <input type="search" name="q" value="{{ request('q') }}" placeholder="Имя или описание">
+
+                <select name="specialization">
+                    <option value="">Все специализации</option>
+                    @foreach ($specializations as $specialization)
+                        <option value="{{ $specialization->id }}"
+                                @selected(request('specialization') == $specialization->id)>
+                            {{ $specialization->name }}
+                        </option>
+                    @endforeach
+                </select>
+
+                <select name="sort">
+                    @foreach ($sorts as $key => $label)
+                        <option value="{{ $key }}" @selected($sort === $key)>{{ $label }}</option>
+                    @endforeach
+                </select>
+
+                <button type="submit">Найти</button>
+                <a href="{{ route('trainers.index') }}">Сбросить</a>
+            </form>
+
+            <p class="found">Найдено: {{ $trainers->total() }}</p>
+
             @forelse ($trainers as $trainer)
-                <x-card :title="$loop->iteration . '. ' . $trainer->name"
+                <x-card :title="($trainers->firstItem() + $loop->index) . '. ' . $trainer->name"
                         :url="route('trainers.show', $trainer->id)"
                         :badge="$trainer->experience >= 8 ? 'Опытный' : null">
                     {{ $trainer->specialization->name }}, стаж {{ $trainer->experience }} лет
                 </x-card>
             @empty
-                <x-alert type="info">Тренеры пока не добавлены.</x-alert>
+                @if (request()->filled('q'))
+                    <x-alert type="warning">По запросу «{{ request('q') }}» ничего не найдено</x-alert>
+                @else
+                    <x-alert type="info">Тренеры пока не добавлены.</x-alert>
+                @endif
             @endforelse
+
+            {{ $trainers->links() }}
         </div>
     </div>
 @endsection

@@ -257,3 +257,57 @@ h2 { font-family: var(--font-head); text-transform: uppercase; letter-spacing: 1
 @media (max-width: 720px) {
     .catalog { grid-template-columns: 1fr; }
 }
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 18px;
+}
+.filters input[type="search"] { flex: 1 1 200px; }
+.filters select {
+    font-family: inherit;
+    padding: 9px 12px;
+    background: #1d2025;
+    color: var(--text);
+    border: 2px solid var(--line);
+}
+.filters select:focus { border-color: var(--accent); outline: none; }
+
+.found { color: var(--muted); margin: 0 0 14px; }
+
+.pagination {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    list-style: none;
+    padding: 0;
+    margin: 22px 0;
+}
+.pagination .page-link {
+    display: block;
+    min-width: 40px;
+    padding: 8px 12px;
+    text-align: center;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 500;
+}
+.pagination a.page-link:hover { border-color: var(--accent); color: var(--accent); }
+.pagination .active .page-link {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--on-accent);
+}
+.pagination .disabled .page-link { opacity: 0.4; }
+
+/* Ограничиваем размер SVG-стрелок в пагинации */
+nav svg {
+    width: 1.25rem; /* 20px */
+    height: 1.25rem; /* 20px */
+    display: inline-block;
+}
+
