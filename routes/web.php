@@ -26,8 +26,7 @@ Route::get('/booking', [PageController::class, 'booking'])
 
 Route::prefix('admin')->name('admin.')->middleware('admin.key')->group(function () {
     Route::get('/', DashboardController::class)->name('dashboard');
-    Route::get('/trainers', [AdminTrainerController::class, 'index'])->name('trainers');
-    Route::get('/trainers/create', [AdminTrainerController::class, 'create'])->name('trainers.create');
+    Route::resource('trainers', AdminTrainerController::class)->except('show');
 });
 
 Route::get('/admin/logout', LogoutController::class)->name('admin.logout');

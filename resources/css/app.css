@@ -311,3 +311,72 @@ nav svg {
     display: inline-block;
 }
 
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+.toolbar h1 { margin: 0; }
+
+.btn {
+    display: inline-block;
+    padding: 9px 20px;
+    background: var(--accent);
+    color: var(--on-accent);
+    text-decoration: none;
+    font-family: var(--font-head);
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+.btn:hover { background: #fff; color: #1d2025; }
+
+.btn-small {
+    padding: 5px 12px;
+    font-size: 14px;
+    background: var(--panel-2);
+    color: var(--text);
+    border: 1px solid var(--line);
+}
+.btn-small:hover { background: var(--accent); color: var(--on-accent); }
+
+.actions { display: flex; gap: 8px; align-items: center; }
+.actions form { margin: 0; }
+
+button.danger {
+    padding: 5px 12px;
+    font-size: 14px;
+    background: transparent;
+    color: #ff7b6e;
+    border: 1px solid #ff7b6e;
+}
+button.danger:hover { background: #ff7b6e; color: #1d2025; transform: none; }
+
+.form {
+    max-width: 620px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-left: 6px solid var(--accent);
+    padding: 20px 24px;
+}
+.form label { display: block; margin-bottom: 16px; font-weight: 500; }
+.form input[type="text"],
+.form input[type="number"],
+.form select,
+.form textarea {
+    display: block;
+    width: 100%;
+    margin-top: 6px;
+    font-family: inherit;
+    padding: 9px 12px;
+    background: #1d2025;
+    color: var(--text);
+    border: 2px solid var(--line);
+}
+.form textarea { resize: vertical; }
+.form input:focus,
+.form select:focus,
+.form textarea:focus { border-color: var(--accent); outline: none; }
+.form label.check { display: flex; align-items: center; gap: 10px; }
+.form-actions { display: flex; gap: 16px; align-items: center; }
