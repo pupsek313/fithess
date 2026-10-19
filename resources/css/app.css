@@ -380,3 +380,14 @@ button.danger:hover { background: #ff7b6e; color: #1d2025; transform: none; }
 .form textarea:focus { border-color: var(--accent); outline: none; }
 .form label.check { display: flex; align-items: center; gap: 10px; }
 .form-actions { display: flex; gap: 16px; align-items: center; }
+
+.form .invalid {
+    border-color: #ff4d3d;
+    background: rgba(255, 77, 61, 0.08);
+}
+.error {
+    margin-top: 6px;
+    color: #ff7b6e;
+    font-size: 14px;
+    font-weight: 400;
+}

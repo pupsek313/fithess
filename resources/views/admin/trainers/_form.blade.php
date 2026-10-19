@@ -1,3 +1,7 @@
+@if ($errors->any())
+    <x-alert type="error">Исправьте ошибки в форме ({{ $errors->count() }})</x-alert>
+@endif
+
 <form method="POST" action="{{ $action }}" class="form">
     @csrf
     @isset($trainer)
@@ -5,11 +9,13 @@
     @endisset
 
     <label>Имя
-        <input type="text" name="name" value="{{ old('name', $trainer->name ?? '') }}">
+        <input type="text" name="name" value="{{ old('name', $trainer->name ?? '') }}"
+               @class(['invalid' => $errors->has('name')])>
+        @error('name') <div class="error">{{ $message }}</div> @enderror
     </label>
 
     <label>Специализация
-        <select name="specialization_id">
+        <select name="specialization_id" @class(['invalid' => $errors->has('specialization_id')])>
             @foreach ($specializations as $specialization)
                 <option value="{{ $specialization->id }}"
                     @selected(old('specialization_id', $trainer->specialization_id ?? '') == $specialization->id)>
@@ -17,22 +23,31 @@
                 </option>
             @endforeach
         </select>
+        @error('specialization_id') <div class="error">{{ $message }}</div> @enderror
     </label>
 
     <label>Телефон
-        <input type="text" name="phone" value="{{ old('phone', $trainer->phone ?? '') }}">
+        <input type="text" name="phone" placeholder="+7 (700) 123-45-67"
+               value="{{ old('phone', $trainer->phone ?? '') }}"
+               @class(['invalid' => $errors->has('phone')])>
+        @error('phone') <div class="error">{{ $message }}</div> @enderror
     </label>
 
     <label>Стаж, лет
-        <input type="number" name="experience" min="0" value="{{ old('experience', $trainer->experience ?? '') }}">
+        <input type="number" name="experience" value="{{ old('experience', $trainer->experience ?? '') }}"
+               @class(['invalid' => $errors->has('experience')])>
+        @error('experience') <div class="error">{{ $message }}</div> @enderror
     </label>
 
     <label>Цена, тг/мес.
-        <input type="number" name="price" min="0" step="0.01" value="{{ old('price', $trainer->price ?? '') }}">
+        <input type="number" name="price" step="0.01" value="{{ old('price', $trainer->price ?? '') }}"
+               @class(['invalid' => $errors->has('price')])>
+        @error('price') <div class="error">{{ $message }}</div> @enderror
     </label>
 
     <label>О тренере
-        <textarea name="bio" rows="5">{{ old('bio', $trainer->bio ?? '') }}</textarea>
+        <textarea name="bio" rows="5" @class(['invalid' => $errors->has('bio')])>{{ old('bio', $trainer->bio ?? '') }}</textarea>
+        @error('bio') <div class="error">{{ $message }}</div> @enderror
     </label>
 
     <label class="check">

@@ -2,11 +2,12 @@
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LogoutController;
+use App\Http\Controllers\Admin\SpecializationController as AdminSpecializationController;
 use App\Http\Controllers\Admin\TrainerController as AdminTrainerController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\SpecializationController;
 use App\Http\Controllers\TrainerController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\SpecializationController;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/about', [PageController::class, 'about'])->name('about');
@@ -20,6 +21,10 @@ Route::get('/trainers/{trainer}', [TrainerController::class, 'show'])
     ->whereNumber('trainer')
     ->name('trainers.show');
 
+Route::get('/specializations/{specialization}', [SpecializationController::class, 'show'])
+    ->whereNumber('specialization')
+    ->name('specializations.show');
+
 Route::get('/booking', [PageController::class, 'booking'])
     ->middleware('hours:9,18')
     ->name('booking');
@@ -27,10 +32,7 @@ Route::get('/booking', [PageController::class, 'booking'])
 Route::prefix('admin')->name('admin.')->middleware('admin.key')->group(function () {
     Route::get('/', DashboardController::class)->name('dashboard');
     Route::resource('trainers', AdminTrainerController::class)->except('show');
+    Route::resource('specializations', AdminSpecializationController::class)->except('show');
 });
 
 Route::get('/admin/logout', LogoutController::class)->name('admin.logout');
-
-Route::get('/specializations/{specialization}', [SpecializationController::class, 'show'])
-    ->whereNumber('specialization')
-    ->name('specializations.show');
