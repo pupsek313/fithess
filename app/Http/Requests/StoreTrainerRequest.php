@@ -29,6 +29,8 @@ class StoreTrainerRequest extends FormRequest
             'experience'        => ['required', 'integer', 'between:0,60'],
             'price'             => ['required', 'numeric', 'between:1000,1000000'],
             'is_active'         => ['boolean'],
+            'photo'             => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'remove_photo'      => ['nullable', 'boolean'],
         ];
     }
 
@@ -45,6 +47,10 @@ class StoreTrainerRequest extends FormRequest
             'phone.regex'              => 'Телефон должен быть в формате +7 (700) 123-45-67.',
             'experience.between'       => 'Стаж должен быть от :min до :max лет.',
             'price.between'            => 'Цена должна быть от :min до :max тг.',
+            'photo.image'       => 'Файл должен быть изображением.',
+            'photo.mimes'       => 'Допустимые форматы: jpg, jpeg, png, webp.',
+            'photo.max'         => 'Размер файла не должен превышать 2 МБ.',
+            'photo.uploaded'    => 'Не удалось загрузить файл (возможно, он больше 2 МБ).',
         ];
     }
 
@@ -58,6 +64,7 @@ class StoreTrainerRequest extends FormRequest
             'experience'        => 'стаж',
             'price'             => 'цена',
             'is_active'         => 'активность',
+            'photo'             => 'фото',
         ];
     }
 }

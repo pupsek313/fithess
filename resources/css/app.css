@@ -421,3 +421,19 @@ button.danger:hover { background: #ff7b6e; color: #1d2025; transform: none; }
 .menu button.link:hover { background: transparent; color: var(--accent); transform: none; }
 
 .user-info { color: var(--muted); margin: 0 12px; }
+
+.form input[type="file"] {
+    display: block;
+    width: 100%;
+    margin-top: 6px;
+    color: var(--text);
+}
+.current-photo { margin-bottom: 16px; }
+.current-photo img {
+    display: block;
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border: 1px solid var(--line);
+    margin-bottom: 8px;
+}

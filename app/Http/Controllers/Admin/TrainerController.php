@@ -7,6 +7,7 @@ use App\Http\Requests\StoreTrainerRequest;
 use App\Http\Requests\UpdateTrainerRequest;
 use App\Models\Specialization;
 use App\Models\Trainer;
+use Illuminate\Support\Facades\Storage;
 
 class TrainerController extends Controller
 {
@@ -28,12 +29,19 @@ class TrainerController extends Controller
     }
 
     public function store(StoreTrainerRequest $request)
-    {
-        Trainer::create($request->validated());
+{
+    $data = $request->validated();
+    unset($data['remove_photo']);
 
-        return redirect()->route('admin.trainers.index')
-            ->with('success', 'Тренер добавлен');
+    if ($request->hasFile('photo')) {
+        $data['photo'] = $request->file('photo')->store('trainers', 'public');
     }
+
+    Trainer::create($data);
+
+    return redirect()->route('admin.trainers.index')
+        ->with('success', 'Тренер добавлен');
+}
 
     public function edit(Trainer $trainer)
     {
@@ -43,17 +51,40 @@ class TrainerController extends Controller
     }
 
     public function update(UpdateTrainerRequest $request, Trainer $trainer)
-    {
-        $trainer->update($request->validated());
+{
+    $data = $request->validated();
+    unset($data['remove_photo']);
 
-        return redirect()->route('admin.trainers.index')
-            ->with('success', 'Изменения сохранены');
+    if ($request->hasFile('photo')) {
+        // загружена новая картинка: удаляем старый файл и сохраняем новый
+        if ($trainer->photo) {
+            Storage::disk('public')->delete($trainer->photo);
+        }
+        $data['photo'] = $request->file('photo')->store('trainers', 'public');
+    } elseif ($request->boolean('remove_photo')) {
+        // отмечено «Удалить фото»
+        if ($trainer->photo) {
+            Storage::disk('public')->delete($trainer->photo);
+        }
+        $data['photo'] = null;
     }
+    // иначе ключа 'photo' в данных нет, и картинка остаётся прежней
+
+    $trainer->update($data);
+
+    return redirect()->route('admin.trainers.index')
+        ->with('success', 'Изменения сохранены');
+    }
+
 
     public function destroy(Trainer $trainer)
     {
-        $trainer->delete();
+    if ($trainer->photo) {
+        Storage::disk('public')->delete($trainer->photo);
+    }
 
-        return back()->with('success', 'Тренер удалён');
+    $trainer->delete();
+
+    return back()->with('success', 'Тренер удалён');
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Trainer extends Model
 {
@@ -20,6 +21,7 @@ class Trainer extends Model
         'experience',
         'price',
         'is_active',
+        'photo',
     ];
 
     protected function casts(): array
@@ -30,6 +32,13 @@ class Trainer extends Model
             'is_active'  => 'boolean',
         ];
     }
+
+    protected function photoUrl(): Attribute
+{
+    return Attribute::get(fn () => $this->photo
+        ? asset('storage/' . $this->photo)
+        : asset('images/no-photo.svg'));
+}
 
     public function specialization(): BelongsTo
     {

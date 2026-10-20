@@ -2,7 +2,7 @@
     <x-alert type="error">Исправьте ошибки в форме ({{ $errors->count() }})</x-alert>
 @endif
 
-<form method="POST" action="{{ $action }}" class="form">
+<form method="POST" action="{{ $action }}" class="form" enctype="multipart/form-data">
     @csrf
     @isset($trainer)
         @method('PUT')
@@ -49,6 +49,23 @@
         <textarea name="bio" rows="5" @class(['invalid' => $errors->has('bio')])>{{ old('bio', $trainer->bio ?? '') }}</textarea>
         @error('bio') <div class="error">{{ $message }}</div> @enderror
     </label>
+
+    <label>Фото
+        <input type="file" name="photo" accept="image/*" @class(['invalid' => $errors->has('photo')])>
+        @error('photo') <div class="error">{{ $message }}</div> @enderror
+    </label>
+
+    @isset($trainer)
+        @if ($trainer->photo)
+            <div class="current-photo">
+                <img src="{{ $trainer->photo_url }}" alt="{{ $trainer->name }}" width="120" height="120">
+                <label class="check">
+                    <input type="checkbox" name="remove_photo" value="1">
+                    Удалить фото
+                </label>
+            </div>
+        @endif
+    @endisset
 
     <label class="check">
         <input type="checkbox" name="is_active" value="1"
