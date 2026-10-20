@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\LogoutController;
 use App\Http\Controllers\Admin\SpecializationController as AdminSpecializationController;
 use App\Http\Controllers\Admin\TrainerController as AdminTrainerController;
 use App\Http\Controllers\Auth\LoginController;
@@ -36,16 +35,15 @@ Route::middleware('guest')->group(function () {
     Route::get('/register', [RegisterController::class, 'create'])->name('register');
     Route::post('/register', [RegisterController::class, 'store']);
     Route::get('/login', [LoginController::class, 'create'])->name('login');
-    Route::post('/login', [LoginController::class, 'store']);
+    Route::post('/login', [LoginController::class, 'store'])->middleware('throttle:5,1');
 });
 
 Route::post('/logout', [LoginController::class, 'destroy'])
     ->middleware('auth')->name('logout');
 
-Route::prefix('admin')->name('admin.')->middleware('admin.key')->group(function () {
+// админка: вошедшие пользователи с правом admin-panel
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:admin-panel'])->group(function () {
     Route::get('/', DashboardController::class)->name('dashboard');
     Route::resource('trainers', AdminTrainerController::class)->except('show');
     Route::resource('specializations', AdminSpecializationController::class)->except('show');
 });
-
-Route::get('/admin/logout', LogoutController::class)->name('admin.logout');

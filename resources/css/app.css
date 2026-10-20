@@ -419,3 +419,5 @@ button.danger:hover { background: #ff7b6e; color: #1d2025; transform: none; }
     border-bottom: 4px solid transparent;
 }
 .menu button.link:hover { background: transparent; color: var(--accent); transform: none; }
+
+.user-info { color: var(--muted); margin: 0 12px; }
