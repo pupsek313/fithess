@@ -22,6 +22,7 @@ class Trainer extends Model
         'price',
         'is_active',
         'photo',
+        'attachment'
     ];
 
     protected function casts(): array

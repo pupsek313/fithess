@@ -29,19 +29,23 @@ class TrainerController extends Controller
     }
 
     public function store(StoreTrainerRequest $request)
-{
-    $data = $request->validated();
-    unset($data['remove_photo']);
+    {
+        $data = $request->validated();
+        unset($data['remove_photo'], $data['remove_attachment']);
 
-    if ($request->hasFile('photo')) {
-        $data['photo'] = $request->file('photo')->store('trainers', 'public');
+        if ($request->hasFile('photo')) {
+            $data['photo'] = $request->file('photo')->store('trainers', 'public');
+        }
+        if ($request->hasFile('attachment')) {
+            // закрытый диск (local): без второго параметра
+            $data['attachment'] = $request->file('attachment')->store('attachments');
+        }
+
+        Trainer::create($data);
+
+        return redirect()->route('admin.trainers.index')
+            ->with('success', 'Тренер добавлен');
     }
-
-    Trainer::create($data);
-
-    return redirect()->route('admin.trainers.index')
-        ->with('success', 'Тренер добавлен');
-}
 
     public function edit(Trainer $trainer)
     {
@@ -51,40 +55,53 @@ class TrainerController extends Controller
     }
 
     public function update(UpdateTrainerRequest $request, Trainer $trainer)
-{
-    $data = $request->validated();
-    unset($data['remove_photo']);
+    {
+        $data = $request->validated();
+        unset($data['remove_photo'], $data['remove_attachment']);
 
-    if ($request->hasFile('photo')) {
-        // загружена новая картинка: удаляем старый файл и сохраняем новый
-        if ($trainer->photo) {
-            Storage::disk('public')->delete($trainer->photo);
+        // фото (открытый диск)
+        if ($request->hasFile('photo')) {
+            if ($trainer->photo) {
+                Storage::disk('public')->delete($trainer->photo);
+            }
+            $data['photo'] = $request->file('photo')->store('trainers', 'public');
+        } elseif ($request->boolean('remove_photo')) {
+            if ($trainer->photo) {
+                Storage::disk('public')->delete($trainer->photo);
+            }
+            $data['photo'] = null;
         }
-        $data['photo'] = $request->file('photo')->store('trainers', 'public');
-    } elseif ($request->boolean('remove_photo')) {
-        // отмечено «Удалить фото»
-        if ($trainer->photo) {
-            Storage::disk('public')->delete($trainer->photo);
+
+        // документ (закрытый диск)
+        if ($request->hasFile('attachment')) {
+            if ($trainer->attachment) {
+                Storage::delete($trainer->attachment);
+            }
+            $data['attachment'] = $request->file('attachment')->store('attachments');
+        } elseif ($request->boolean('remove_attachment')) {
+            if ($trainer->attachment) {
+                Storage::delete($trainer->attachment);
+            }
+            $data['attachment'] = null;
         }
-        $data['photo'] = null;
+
+        $trainer->update($data);
+
+        return redirect()->route('admin.trainers.index')
+            ->with('success', 'Изменения сохранены');
     }
-    // иначе ключа 'photo' в данных нет, и картинка остаётся прежней
-
-    $trainer->update($data);
-
-    return redirect()->route('admin.trainers.index')
-        ->with('success', 'Изменения сохранены');
-    }
-
 
     public function destroy(Trainer $trainer)
     {
-    if ($trainer->photo) {
-        Storage::disk('public')->delete($trainer->photo);
-    }
+        if ($trainer->photo) {
+            Storage::disk('public')->delete($trainer->photo);
+        }
+        if ($trainer->attachment) {
+            Storage::delete($trainer->attachment);
+        }
 
-    $trainer->delete();
+        $trainer->delete();
 
-    return back()->with('success', 'Тренер удалён');
+        return back()->with('success', 'Тренер удалён');
     }
 }

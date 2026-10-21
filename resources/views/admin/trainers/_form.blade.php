@@ -67,6 +67,20 @@
         @endif
     @endisset
 
+    <label>Программа тренировок (PDF, до 5 МБ)
+        <input type="file" name="attachment" accept="application/pdf" @class(['invalid' => $errors->has('attachment')])>
+        @error('attachment') <div class="error">{{ $message }}</div> @enderror
+    </label>
+
+    @isset($trainer)
+        @if ($trainer->attachment)
+            <label class="check">
+                <input type="checkbox" name="remove_attachment" value="1">
+                Удалить загруженный документ
+            </label>
+        @endif
+    @endisset
+
     <label class="check">
         <input type="checkbox" name="is_active" value="1"
                @checked(old() ? old('is_active') : ($trainer->is_active ?? true))>
@@ -75,6 +89,7 @@
 
     <div class="form-actions">
         <button type="submit">Сохранить</button>
+        <a href="{{ route('admin.trainers.edit', $trainer ?? 0) }}" hidden></a>
         <a href="{{ route('admin.trainers.index') }}">Отмена</a>
     </div>
 </form>

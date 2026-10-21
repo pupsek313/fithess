@@ -12,10 +12,12 @@
     <h2>Наши тренеры</h2>
     @foreach ($trainers as $trainer)
         <x-card class="card-wide"
-                :title="$trainer->name"
-                :url="route('trainers.show', $trainer->id)"
-                :badge="$trainer->experience >= 8 ? 'Опытный' : null">
-           {{ $trainer->specialization->name }}, стаж {{ $trainer->experience }} лет
+        :title="$trainer->name"
+        :url="route('trainers.show', $trainer->id)"
+        :badge="$trainer->experience >= 8 ? 'Опытный' : null"
+        :image="$trainer->photo_url"
+        :alt="$trainer->name">
+        {{ $trainer->specialization->name }}, стаж {{ $trainer->experience }} лет
         </x-card>
     @endforeach
 @endsection

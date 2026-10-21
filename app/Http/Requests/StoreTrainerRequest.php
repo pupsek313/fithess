@@ -31,6 +31,8 @@ class StoreTrainerRequest extends FormRequest
             'is_active'         => ['boolean'],
             'photo'             => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
             'remove_photo'      => ['nullable', 'boolean'],
+            'attachment'        => ['nullable', 'mimes:pdf', 'max:5120'],
+            'remove_attachment' => ['nullable', 'boolean'],
         ];
     }
 
@@ -51,6 +53,9 @@ class StoreTrainerRequest extends FormRequest
             'photo.mimes'       => 'Допустимые форматы: jpg, jpeg, png, webp.',
             'photo.max'         => 'Размер файла не должен превышать 2 МБ.',
             'photo.uploaded'    => 'Не удалось загрузить файл (возможно, он больше 2 МБ).',
+            'attachment.mimes'    => 'Допустим только PDF-файл.',
+            'attachment.max'      => 'Размер документа не должен превышать 5 МБ.',
+            'attachment.uploaded' => 'Не удалось загрузить документ (возможно, файл слишком большой).',
         ];
     }
 
@@ -65,6 +70,7 @@ class StoreTrainerRequest extends FormRequest
             'price'             => 'цена',
             'is_active'         => 'активность',
             'photo'             => 'фото',
+            'attachment'        => 'документ',
         ];
     }
 }

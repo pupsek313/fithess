@@ -45,10 +45,14 @@
 
             <p class="found">Найдено: {{ $trainers->total() }}</p>
 
+            <p> <a href="{{ route('trainers.pdf', request()->query()) }}" class="btn btn-small">Скачать PDF</a></p>
+
             @forelse ($trainers as $trainer)
                 <x-card :title="($trainers->firstItem() + $loop->index) . '. ' . $trainer->name"
                         :url="route('trainers.show', $trainer->id)"
-                        :badge="$trainer->experience >= 8 ? 'Опытный' : null">
+                        :badge="$trainer->experience >= 8 ? 'Опытный' : null"
+                        :image="$trainer->photo_url"
+                        :alt="$trainer->name">
                     {{ $trainer->specialization->name }}, стаж {{ $trainer->experience }} лет
                 </x-card>
             @empty
@@ -59,7 +63,7 @@
                 @endif
             @endforelse
 
-           {{ $trainers->links('pagination.custom') }}
+            {{ $trainers->links('pagination.custom') }}
         </div>
     </div>
 @endsection

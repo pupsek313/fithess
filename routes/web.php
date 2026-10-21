@@ -17,10 +17,16 @@ Route::get('/rules', [PageController::class, 'rules'])->name('rules');
 Route::get('/hello/{name}', [PageController::class, 'hello']);
 Route::redirect('/main', '/');
 
+// конкретные адреса объявляем раньше адресов с параметром {trainer}
 Route::get('/trainers', [TrainerController::class, 'index'])->name('trainers.index');
+Route::get('/trainers/pdf', [TrainerController::class, 'pdf'])->name('trainers.pdf');
 Route::get('/trainers/{trainer}', [TrainerController::class, 'show'])
     ->whereNumber('trainer')
     ->name('trainers.show');
+Route::get('/trainers/{trainer}/attachment', [TrainerController::class, 'attachment'])
+    ->whereNumber('trainer')
+    ->middleware('auth')
+    ->name('trainers.attachment');
 
 Route::get('/specializations/{specialization}', [SpecializationController::class, 'show'])
     ->whereNumber('specialization')

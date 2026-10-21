@@ -437,3 +437,37 @@ button.danger:hover { background: #ff7b6e; color: #1d2025; transform: none; }
     border: 1px solid var(--line);
     margin-bottom: 8px;
 }
+
+.card-media a { display: block; }
+.card-media img {
+    display: block;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    margin-bottom: 12px;
+    border: 1px solid var(--line);
+}
+.card-wide .card-media img { height: 260px; }
+
+.trainer-photo {
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    margin-bottom: 16px;
+    border: 1px solid var(--line);
+}
+
+.thumb {
+    display: block;
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border: 1px solid var(--line);
+}
+
+.muted { color: var(--muted); }
+
+.qr-box { display: inline-block; margin: 16px 0; }
+.qr-box svg { display: block; background: #fff; padding: 8px; }

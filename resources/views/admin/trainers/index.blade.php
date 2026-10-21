@@ -11,6 +11,7 @@
     <table>
         <tr>
             <th>ID</th>
+            <th>Фото</th>
             <th>Имя</th>
             <th>Специализация</th>
             <th>Стаж, лет</th>
@@ -22,6 +23,9 @@
         @foreach ($trainers as $trainer)
             <tr>
                 <td>{{ $trainer->id }}</td>
+                <td>
+                    <img class="thumb" src="{{ $trainer->photo_url }}" alt="{{ $trainer->name }}" width="60" height="60">
+                </td>
                 <td>
                     {{ $trainer->name }}
                     @if ($trainers->onFirstPage() && $loop->first)
