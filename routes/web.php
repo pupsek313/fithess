@@ -13,6 +13,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpecializationController;
 use App\Http\Controllers\TrainerController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\ExportController as AdminExportController;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/about', [PageController::class, 'about'])->name('about');
@@ -75,4 +76,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:admin-panel'])-
 
     Route::get('notifications', [AdminNotificationController::class, 'index'])->name('notifications');
     Route::post('notifications/read', [AdminNotificationController::class, 'markAllRead'])->name('notifications.read');
+        Route::post('exports/catalog', [AdminExportController::class, 'catalog'])->name('exports.catalog');
+    Route::get('exports/{file}', [AdminExportController::class, 'download'])
+        ->where('file', '[A-Za-z0-9_.\-]+')
+        ->name('exports.download');
 });

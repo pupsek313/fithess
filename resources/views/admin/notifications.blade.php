@@ -14,6 +14,9 @@
     @forelse ($notifications as $n)
         <div @class(['card', 'read' => $n->read_at])>
             <strong>{{ $n->data['text'] }}</strong>
+            @if (! empty($n->data['url']))
+                <p><a href="{{ $n->data['url'] }}" class="btn btn-small">Скачать</a></p>
+            @endif
             <p class="muted">{{ $n->created_at->format('d.m.Y H:i') }}</p>
         </div>
     @empty

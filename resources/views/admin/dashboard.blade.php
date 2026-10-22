@@ -11,5 +11,11 @@
         <li><a href="{{ route('admin.specializations.create') }}">Добавить специализацию</a></li>
         <li><a href="{{ route('admin.bookings.index') }}">Заявки</a></li>
     </ul>
-    <a href="{{ route('home') }}">На сайт</a>
+
+    <form method="POST" action="{{ route('admin.exports.catalog') }}">
+        @csrf
+        <button type="submit">Сформировать PDF в фоне</button>
+    </form>
+
+    <p><a href="{{ route('home') }}">На сайт</a></p>
 @endsection

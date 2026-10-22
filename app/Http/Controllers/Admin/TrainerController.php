@@ -92,16 +92,9 @@ class TrainerController extends Controller
     }
 
     public function destroy(Trainer $trainer)
-    {
-        if ($trainer->photo) {
-            Storage::disk('public')->delete($trainer->photo);
-        }
-        if ($trainer->attachment) {
-            Storage::delete($trainer->attachment);
-        }
+{
+    $trainer->delete();
 
-        $trainer->delete();
-
-        return back()->with('success', 'Тренер удалён');
-    }
+    return back()->with('success', 'Тренер удалён');
+}
 }

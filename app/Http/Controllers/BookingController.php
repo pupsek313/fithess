@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\BookingCreated;
 use App\Http\Requests\StoreBookingRequest;
-use App\Mail\BookingReceived;
 use App\Models\Trainer;
-use App\Models\User;
-use App\Notifications\NewBooking;
 use App\Services\BookingService;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Notification;
 
 class BookingController extends Controller
 {
@@ -17,16 +13,7 @@ class BookingController extends Controller
     {
         $booking = $service->create($request->user(), $trainer, $request->validated());
 
-        // связи нужны шаблонам письма и уведомления
-        $booking->load(['user', 'trainer']);
-
-        Mail::to($request->user())->send(new BookingReceived($booking));
-
-        // уведомление всем, у кого есть доступ в админ-панель
-        Notification::send(
-            User::whereIn('role', ['admin', 'editor'])->get(),
-            new NewBooking($booking)
-        );
+        BookingCreated::dispatch($booking);
 
         return back()->with('success', "Заявка №{$booking->id} отправлена");
     }
