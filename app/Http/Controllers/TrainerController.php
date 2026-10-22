@@ -8,6 +8,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
 
 class TrainerController extends Controller
 {
@@ -47,9 +48,11 @@ class TrainerController extends Controller
     {
         $trainers = $this->catalogQuery($request)->paginate(9)->withQueryString();
 
-        $specializations = Specialization::withCount('trainers')
-            ->orderBy('name')
-            ->get();
+        $specializations = Cache::remember(
+    'specializations.menu',
+    now()->addHour(),
+    fn () => Specialization::withCount('trainers')->orderBy('name')->get()
+);
 
         $sorts = self::SORTS;
         $sort = $this->sortKey($request);

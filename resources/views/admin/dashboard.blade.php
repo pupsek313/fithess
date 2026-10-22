@@ -4,6 +4,12 @@
 
 @section('content')
     <h1>Панель администратора</h1>
+
+    <div class="card">
+    <p>Тренеров: <strong>{{ $stats['trainers'] }}</strong> (активных: {{ $stats['active'] }})</p>
+    <p>Специализаций: <strong>{{ $stats['specializations'] }}</strong></p>
+    </div>
+
     <ul>
         <li><a href="{{ route('admin.trainers.index') }}">Список тренеров</a></li>
         <li><a href="{{ route('admin.trainers.create') }}">Добавить тренера</a></li>

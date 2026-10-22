@@ -1,11 +1,13 @@
 <?php
 
+use App\Jobs\GenerateCatalogPdf;
 use App\Models\Booking;
 use App\Models\Specialization;
 use App\Models\Trainer;
 use App\Models\User;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schedule;
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
@@ -47,3 +49,24 @@ Artisan::command('catalog:stats', function () {
             ->all()
     );
 })->purpose('Короткая статистика каталога');
+
+// ---- расписание ----
+
+// каждую ночь закрываем устаревшие заявки
+Schedule::command('bookings:close-old --days=7')
+    ->dailyAt('03:00')
+    ->withoutOverlapping();
+
+// статистика каждую минуту дописывается в файл
+Schedule::command('catalog:stats')
+    ->everyMinute()
+    ->appendOutputTo(storage_path('logs/stats.log'));
+
+// по понедельникам в 8:00 формируем PDF-каталог в фоне
+Schedule::call(function () {
+    $admin = User::where('role', 'admin')->first();
+
+    if ($admin) {
+        GenerateCatalogPdf::dispatch($admin);
+    }
+})->name('weekly-catalog-pdf')->weeklyOn(1, '08:00');

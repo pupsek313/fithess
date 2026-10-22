@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 use App\Models\Trainer;
+use App\Models\Specialization;
+
+use Illuminate\Support\Facades\Cache;
+
 class PageController extends Controller
 {
     public function home()
 {
-    $trainers = Trainer::with('specialization')
-        ->orderBy('id')
-        ->limit(3)
-        ->get();
+    $data = [
+        'total'           => Trainer::count(),
+        'specializations' => Specialization::withCount('trainers')->orderBy('name')->get(),
+        'latest'          => Trainer::with('specialization')->latest()->orderByDesc('id')->take(6)->get(),
+    ];
 
-    return view('home', [
-        'title'    => config('app.name'),
-        'date'     => date('d.m.Y'),
-        'trainers' => $trainers,
-    ]);
+    return view('home', $data + ['date' => date('d.m.Y')]);
 }
 
     public function about()
