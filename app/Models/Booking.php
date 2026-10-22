@@ -11,6 +11,7 @@ class Booking extends Model
         'new'       => 'Новая',
         'processed' => 'Обработана',
         'rejected'  => 'Отклонена',
+        'closed'    => 'Закрыта (устарела)'
     ];
 
     protected $fillable = [
