@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Trainer extends Model
 {
@@ -22,7 +23,7 @@ class Trainer extends Model
         'price',
         'is_active',
         'photo',
-        'attachment'
+        'attachment',
     ];
 
     protected function casts(): array
@@ -35,15 +36,20 @@ class Trainer extends Model
     }
 
     protected function photoUrl(): Attribute
-{
-    return Attribute::get(fn () => $this->photo
-        ? asset('storage/' . $this->photo)
-        : asset('images/no-photo.svg'));
-}
+    {
+        return Attribute::get(fn () => $this->photo
+            ? asset('storage/' . $this->photo)
+            : asset('images/no-photo.svg'));
+    }
 
     public function specialization(): BelongsTo
     {
         return $this->belongsTo(Specialization::class);
+    }
+
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(Booking::class);
     }
 
     public function scopeActive(Builder $query): Builder

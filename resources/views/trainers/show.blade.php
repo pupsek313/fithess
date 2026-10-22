@@ -27,9 +27,37 @@
         @endauth
     @endif
 
+    <h2>Записаться на тренировку</h2>
+    @auth
+        @error('booking')
+            <x-alert type="warning">{{ $message }}</x-alert>
+        @enderror
+
+        <form method="POST" action="{{ route('bookings.store', $trainer) }}" class="form">
+            @csrf
+
+            <label>Телефон
+                <input type="text" name="phone" placeholder="+77011234567" value="{{ old('phone') }}"
+                       @class(['invalid' => $errors->has('phone')])>
+                @error('phone') <div class="error">{{ $message }}</div> @enderror
+            </label>
+
+            <label>Комментарий
+                <textarea name="comment" rows="3" @class(['invalid' => $errors->has('comment')])>{{ old('comment') }}</textarea>
+                @error('comment') <div class="error">{{ $message }}</div> @enderror
+            </label>
+
+            <div class="form-actions">
+                <button type="submit">Записаться</button>
+            </div>
+        </form>
+    @else
+        <x-alert type="info">Войдите, чтобы оставить заявку. <a href="{{ route('login') }}">Вход</a></x-alert>
+    @endauth
+
     <div class="qr-box">
-    {!! \SimpleSoftwareIO\QrCode\Facades\QrCode::size(140)->margin(1)->generate(route('trainers.show', $trainer)) !!}
-    <div class="muted">QR-код со ссылкой на эту страницу</div>
+        {!! \SimpleSoftwareIO\QrCode\Facades\QrCode::size(140)->margin(1)->generate(route('trainers.show', $trainer)) !!}
+        <div class="muted">QR-код со ссылкой на эту страницу</div>
     </div>
 
     @if ($others->isNotEmpty())

@@ -5,7 +5,9 @@ use App\Http\Controllers\Admin\SpecializationController as AdminSpecializationCo
 use App\Http\Controllers\Admin\TrainerController as AdminTrainerController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpecializationController;
 use App\Http\Controllers\TrainerController;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +29,10 @@ Route::get('/trainers/{trainer}/attachment', [TrainerController::class, 'attachm
     ->whereNumber('trainer')
     ->middleware('auth')
     ->name('trainers.attachment');
+Route::post('/trainers/{trainer}/bookings', [BookingController::class, 'store'])
+    ->whereNumber('trainer')
+    ->middleware('auth')
+    ->name('bookings.store');
 
 Route::get('/specializations/{specialization}', [SpecializationController::class, 'show'])
     ->whereNumber('specialization')
@@ -35,6 +41,10 @@ Route::get('/specializations/{specialization}', [SpecializationController::class
 Route::get('/booking', [PageController::class, 'booking'])
     ->middleware('hours:9,18')
     ->name('booking');
+
+Route::get('/profile', [ProfileController::class, 'show'])
+    ->middleware('auth')
+    ->name('profile');
 
 // регистрация и вход: только для гостей
 Route::middleware('guest')->group(function () {

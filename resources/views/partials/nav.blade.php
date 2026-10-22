@@ -5,6 +5,7 @@
     <a href="{{ route('trainers.index') }}" @class(['active' => request()->routeIs('trainers.*')])>Тренеры</a>
     <a href="{{ route('rules') }}" @class(['active' => request()->routeIs('rules')])>Правила</a>
     <a href="{{ route('booking') }}" @class(['active' => request()->routeIs('booking')])>Записаться на тренировку</a>
+    <a href="{{ route('profile') }}" @class(['active' => request()->routeIs('profile')])>Мои заявки</a>
 
     @guest
         <a href="{{ route('login') }}" @class(['active' => request()->routeIs('login')])>Вход</a>
