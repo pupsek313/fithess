@@ -471,3 +471,6 @@ button.danger:hover { background: #ff7b6e; color: #1d2025; transform: none; }
 
 .qr-box { display: inline-block; margin: 16px 0; }
 .qr-box svg { display: block; background: #fff; padding: 8px; }
+
+.card.read { opacity: 0.6; border-top-color: var(--line); }
+button.small { padding: 5px 12px; font-size: 14px; }

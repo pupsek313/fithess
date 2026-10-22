@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\NotificationController as AdminNotificationController;
 use App\Http\Controllers\Admin\SpecializationController as AdminSpecializationController;
 use App\Http\Controllers\Admin\TrainerController as AdminTrainerController;
 use App\Http\Controllers\Auth\LoginController;
@@ -45,6 +47,9 @@ Route::get('/booking', [PageController::class, 'booking'])
 Route::get('/profile', [ProfileController::class, 'show'])
     ->middleware('auth')
     ->name('profile');
+Route::post('/profile/notifications/read', [ProfileController::class, 'readNotifications'])
+    ->middleware('auth')
+    ->name('profile.notifications.read');
 
 // регистрация и вход: только для гостей
 Route::middleware('guest')->group(function () {
@@ -62,4 +67,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:admin-panel'])-
     Route::get('/', DashboardController::class)->name('dashboard');
     Route::resource('trainers', AdminTrainerController::class)->except('show');
     Route::resource('specializations', AdminSpecializationController::class)->except('show');
+
+    Route::get('bookings', [AdminBookingController::class, 'index'])->name('bookings.index');
+    Route::patch('bookings/{booking}', [AdminBookingController::class, 'update'])
+        ->whereNumber('booking')
+        ->name('bookings.update');
+
+    Route::get('notifications', [AdminNotificationController::class, 'index'])->name('notifications');
+    Route::post('notifications/read', [AdminNotificationController::class, 'markAllRead'])->name('notifications.read');
 });

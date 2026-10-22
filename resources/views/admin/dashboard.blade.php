@@ -9,6 +9,7 @@
         <li><a href="{{ route('admin.trainers.create') }}">Добавить тренера</a></li>
         <li><a href="{{ route('admin.specializations.index') }}">Список специализаций</a></li>
         <li><a href="{{ route('admin.specializations.create') }}">Добавить специализацию</a></li>
+        <li><a href="{{ route('admin.bookings.index') }}">Заявки</a></li>
     </ul>
     <a href="{{ route('home') }}">На сайт</a>
 @endsection

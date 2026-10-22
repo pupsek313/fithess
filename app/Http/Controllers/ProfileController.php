@@ -8,12 +8,22 @@ class ProfileController extends Controller
 {
     public function show(Request $request)
     {
-        $bookings = $request->user()
-            ->bookings()
+        $user = $request->user();
+
+        $bookings = $user->bookings()
             ->with('trainer')
             ->latest()
             ->get();
 
-        return view('profile', compact('bookings'));
+        $notifications = $user->unreadNotifications()->latest()->get();
+
+        return view('profile', compact('bookings', 'notifications'));
+    }
+
+    public function readNotifications(Request $request)
+    {
+        $request->user()->unreadNotifications->markAsRead();
+
+        return redirect()->route('profile');
     }
 }

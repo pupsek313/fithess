@@ -5,6 +5,21 @@
 @section('content')
     <h1>Мои заявки</h1>
 
+    @if ($notifications->isNotEmpty())
+        <h2>Новые уведомления</h2>
+        @foreach ($notifications as $n)
+            <x-alert type="info">
+                {{ $n->data['text'] }}
+                <span class="muted">({{ $n->created_at->format('d.m.Y H:i') }})</span>
+            </x-alert>
+        @endforeach
+        <form method="POST" action="{{ route('profile.notifications.read') }}">
+            @csrf
+            <button type="submit">Отметить прочитанными</button>
+        </form>
+    @endif
+
+    <h2>Заявки</h2>
     @forelse ($bookings as $booking)
         <div class="card">
             <a href="{{ route('trainers.show', $booking->trainer_id) }}">{{ $booking->trainer->name }}</a>
